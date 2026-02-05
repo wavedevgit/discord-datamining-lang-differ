@@ -12,12 +12,7 @@ function parseTemplate(functionBody, name) {
             templates.push(node);
         },
     });
-    if (templates.length > 1)
-        console.log(
-            name,
-            'Found property with more then 1 template literals in string, it might cause issues',
-        );
-
+   
     const template = templates.splice(-1)[0];
     let path = '';
     for (let i = 0; i < template.quasis.length; i++) {
