@@ -21,6 +21,15 @@ export default function getEndpoints(file) {
 
 						if(property.value.type === "ArrowFunctionExpression" && property.value.body.type === "Literal") {
 							path = property.value.body.value
+						} else if(property.value.type === "ArrowFunctionExpression" && property.value.body.type === "TemplateLiteral") {
+							// Handle template literals like `/guilds/${e}/profile/${t}`
+							const templateLiteral = property.value.body
+							for(let i = 0; i < templateLiteral.quasis.length; i++) {
+								path += templateLiteral.quasis[i].value.raw
+								if(i < templateLiteral.expressions.length) {
+									path += ":param"
+								}
+							}
 						} else {
 							walk.simple(property.value, {
 								CallExpression(node) {
